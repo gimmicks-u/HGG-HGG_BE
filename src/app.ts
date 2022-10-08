@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as dotenv from 'dotenv';
-// import catsRouter from './cats/cats.route';
+import usersRouter from './routes/users.route';
 import 'reflect-metadata';
 import { Database } from './db/index';
 
@@ -13,7 +13,7 @@ class Server {
   }
 
   private setRoute() {
-    // this.app.use(catsRouter);
+    this.app.use('/users', usersRouter);
   }
 
   private setMiddleware() {
@@ -26,8 +26,7 @@ class Server {
 
     //* logging middleware
     this.app.use((req, res, next) => {
-      console.log(`✅ req 도착from : ${req.rawHeaders[1]}`);
-      console.log(` from : ${req.rawHeaders[1]}`);
+      console.log(`✅ req has been arrived from : ${req.rawHeaders[1]}`);
       next();
     });
 
