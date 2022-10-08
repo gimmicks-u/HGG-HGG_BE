@@ -7,8 +7,10 @@ import {
   DeleteDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { PostStatus } from './common/Enums';
+import { PostImage } from './post_image';
 import { User } from './user';
 
 @Entity() // table name in database
@@ -43,4 +45,7 @@ export class Post {
   @ManyToOne(() => User, (user) => user.post, { onDelete: 'CASCADE' })
   @JoinColumn([{ referencedColumnName: 'id', name: 'user_id' }])
   user: User;
+
+  @OneToMany(() => PostImage, (post_image) => post_image.image_url)
+  image_url: PostImage[];
 }
