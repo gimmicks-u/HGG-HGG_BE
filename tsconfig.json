@@ -1,0 +1,23 @@
+//* https://www.staging-typescript.org/tsconfig
+
+{
+  "compilerOptions": {
+    // "strict": true,
+    "module": "commonjs",
+    "removeComments": true, // 컴파일시 주석 제거
+    "allowSyntheticDefaultImports": true, // https://www.typescriptlang.org/tsconfig#Interop_Constraints_6252
+    // "noImplicitAny": true,
+
+    // below two lines are for typeorm
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    // ----
+    "target": "ES5",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "incremental": true,
+    "strictPropertyInitialization": false
+  },
+  "exclude": ["node_modules", "dist"]
+}
