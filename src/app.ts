@@ -1,8 +1,11 @@
 import * as express from 'express';
 import * as dotenv from 'dotenv';
 import usersRouter from './routes/users.route';
+import authRouter from './routes/auth.route';
 import 'reflect-metadata';
 import { Database } from './db/index';
+import * as cookieParser from 'cookie-parser';
+import * as cors from 'cors';
 
 class Server {
   public app: express.Application;
@@ -14,6 +17,7 @@ class Server {
 
   private setRoute() {
     this.app.use('/users', usersRouter);
+    this.app.use('/auth', authRouter);
   }
 
   private setMiddleware() {
@@ -23,6 +27,17 @@ class Server {
     //* Database Connection
     const db = new Database();
     db.connectToDB();
+
+    //* cookie parser
+    this.app.use(cookieParser());
+
+    //* cors
+    this.app.use(
+      cors({
+        origin: process.env.URL,
+        credentials: true,
+      }),
+    );
 
     //* logging middleware
     this.app.use((req, res, next) => {
@@ -35,16 +50,12 @@ class Server {
     this.app.use(express.urlencoded({ extended: true }));
 
     this.setRoute();
-
-    this.app.get('/', async (req, res) => {
-      res.json('hi');
-    });
   }
 
   public listen() {
     this.setMiddleware();
     this.app.listen(process.env.PORT, () => {
-      console.log(`✅ Server is on : http://localhost:${process.env.PORT}`);
+      console.log(`✅ Server is on : ${process.env.URL}:${process.env.PORT}`);
     });
   }
 }
