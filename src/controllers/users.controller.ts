@@ -16,4 +16,28 @@ export const UsersController = {
     // 응답
     res.status(status).json(message);
   },
+  checkEmail: async (req: Request, res: Response) => {
+    const email = req.query.email;
+
+    console.log(`controller / checkEmail / (req.query.email) = ${email}`);
+
+    const result = await UsersService.checkEmail(email);
+
+    const { message, status } = result;
+
+    res.status(status).json(message);
+  },
+
+  checkNickname: async (req: Request, res: Response) => {
+    const nickname = req.query.nickname;
+
+    console.log(
+      `controller / checkNickname / (req.query.nicname) = ${nickname}`,
+    );
+    const result = await UsersService.checkNickname(nickname);
+
+    const { message, status } = result;
+
+    res.status(status).json(message);
+  },
 };
