@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { UsersService } from '../services/users.service';
-import { UserCreate } from '../interfaces/index';
+import { UserCreate, UserEmail, UserNickName } from '../interfaces/index';
 
 // 회원가입
 export const UsersController = {
   createUser: async (req: Request, res: Response) => {
     // DTO 생성
     const { email, password, nickname, name, kakao_id } = req.body;
+
     const userDTO: UserCreate = { email, password, nickname, name, kakao_id };
 
     // Service
@@ -16,12 +17,13 @@ export const UsersController = {
     // 응답
     res.status(status).json(message);
   },
+
   checkEmail: async (req: Request, res: Response) => {
-    const email = req.query.email;
+    const email = req.query.email as string;
 
-    console.log(`controller / checkEmail / (req.query.email) = ${email}`);
+    const userDTO: UserEmail = { email };
 
-    const result = await UsersService.checkEmail(email);
+    const result = await UsersService.checkEmail(userDTO);
 
     const { message, status } = result;
 
@@ -29,12 +31,11 @@ export const UsersController = {
   },
 
   checkNickname: async (req: Request, res: Response) => {
-    const nickname = req.query.nickname;
+    const nickname = req.query.nickname as string;
 
-    console.log(
-      `controller / checkNickname / (req.query.nicname) = ${nickname}`,
-    );
-    const result = await UsersService.checkNickname(nickname);
+    const userDTO: UserNickName = { nickname };
+
+    const result = await UsersService.checkNickname(userDTO);
 
     const { message, status } = result;
 

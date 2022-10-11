@@ -1,5 +1,5 @@
 import { User } from '../db/entity/user';
-import { UserCreate } from '../interfaces';
+import { UserCreate, UserEmail, UserNickName } from '../interfaces';
 import { getRepository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
@@ -40,15 +40,10 @@ export const UsersService = {
       return { message: '입력하신 정보를 확인해주세요.', status: 400 };
     }
   },
-  checkEmail: async (email) => {
-    // const query = `SELECT EXISTS(SELECT id FROM users WHERE email=?) AS success; `;
-    // const params = [email];
-
-    console.log(`service / checkEmail / email = ${email}`);
-
+  checkEmail: async (userDTO: UserEmail) => {
     const hasEmail = await getRepository(User)
       .createQueryBuilder('user')
-      .where('user.email = :email', { email: `${email}` })
+      .where('user.email = :email', { email: `${userDTO.email}` })
       .getOne();
 
     const request_res = {
@@ -64,15 +59,10 @@ export const UsersService = {
     return hasEmail == null ? request_res.useAble : request_res.useUnable;
   },
 
-  checkNickname: async (nickname) => {
-    // const query = `SELECT EXISTS(SELECT id FROM users WHERE email=?) AS success; `;
-    // const params = [email];
-
-    console.log(`service / checkNickname / nickname = ${nickname}`);
-
+  checkNickname: async (userDTO: UserNickName) => {
     const hasEmail = await getRepository(User)
       .createQueryBuilder('user')
-      .where('user.nickname = :nickname', { nickname: `${nickname}` })
+      .where('user.nickname = :nickname', { nickname: `${userDTO.nickname}` })
       .getOne();
 
     const request_res = {

@@ -5,3 +5,11 @@ export interface UserCreate {
   name: string;
   kakao_id: string;
 }
+
+export interface UserEmail {
+  email: string;
+}
+
+export interface UserNickName {
+  nickname: string;
+}
