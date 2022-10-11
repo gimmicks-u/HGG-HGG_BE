@@ -6,6 +6,7 @@ node_modules
 .DS_Store
 db_data
 dist
+.dist
 
 # Logs
 logs
