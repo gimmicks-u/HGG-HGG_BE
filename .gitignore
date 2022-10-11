@@ -5,8 +5,10 @@ node_modules
 .idea
 .DS_Store
 db_data
-dist
-.dist
+/dist
+.dist/*
+dist/
+
 
 # Logs
 logs
