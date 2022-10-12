@@ -22,4 +22,11 @@ export const AuthController = {
     // 응답
     res.status(status).json(message);
   },
+
+  logout: async (req: Request, res: Response) => {
+    const result = await AuthService.logout(res);
+
+    const { status, message } = result;
+    res.status(status).json(message);
+  },
 };
