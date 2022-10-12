@@ -10,6 +10,7 @@ export const AuthService = {
     // 이메일 존재 확인
     const userFromDB = await getRepository(User).findOneBy({
       email: userDTO.email,
+      deleted_at: null,
     });
 
     if (!userFromDB) {

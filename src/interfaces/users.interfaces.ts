@@ -5,3 +5,9 @@ export interface UserCreate {
   name: string;
   kakao_id: string;
 }
+
+export interface UserUpdate {
+  nickname?: string;
+  password?: string;
+  profile_image?: string;
+}
