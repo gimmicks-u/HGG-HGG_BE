@@ -7,5 +7,9 @@ const router = Router();
 router.get('/:id', PostsController.requestPost);
 // 포스트 등록
 router.post('/', PostsController.createPost);
+// 포스트 수정
+router.patch('/:id', PostsController.updatePost);
+// 포스트 삭제
+router.delete('/:id', PostsController.deletePost);
 
 export default router;

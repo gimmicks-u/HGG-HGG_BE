@@ -1,25 +1,73 @@
 import { Request, Response } from 'express';
 import { PostsService } from '../services/posts.service';
-import { PostID, PostCreate } from '../interfaces/index';
+import {
+  PostID,
+  PostCreate,
+  PostUpdate,
+  PostDelete,
+} from '../interfaces/index';
 
 export const PostsController = {
   requestPost: async (req: Request, res: Response) => {
-    const id = Number(req.path.replace('/', ''));
+    const post_id = Number(req.params.id);
 
-    const postDTO: PostID = { id };
+    const postDTO: PostID = { post_id };
+    const result = await PostsService.requestPost(postDTO);
 
-    const result = await PostsService.getPost(postDTO);
     const { status, PostedContent } = result;
 
     res.status(status).json(PostedContent);
   },
 
   createPost: async (req: Request, res: Response) => {
-    const { title, content, user_id } = req.body;
+    const user_id = 10; // authentication으로 대체
+    const { title, content, group_status, meeting_date } = req.body;
 
-    const postDTO: PostCreate = { title, content, user_id };
+    const postDTO: PostCreate = {
+      title,
+      content,
+      group_status,
+      meeting_date,
+      user_id,
+    };
     const result = await PostsService.createPost(postDTO);
+
     const { status, message } = result;
+
+    res.status(status).json(message);
+  },
+  updatePost: async (req: Request, res: Response) => {
+    const user_id = 10; // authentication으로 대체
+    const post_id = Number(req.params.id);
+    const { title, content, group_status, meeting_date } = req.body;
+
+    const postDTO: PostUpdate = {
+      post_id,
+      title,
+      content,
+      group_status,
+      meeting_date,
+      user_id,
+    };
+    const result = await PostsService.updatePost(postDTO);
+
+    const { status, message } = result;
+
+    res.status(status).json(message);
+  },
+
+  deletePost: async (req: Request, res: Response) => {
+    const user_id = 10; // authentication으로 대체
+    const post_id = Number(req.params.id);
+
+    const postDTO: PostDelete = {
+      post_id,
+      user_id,
+    };
+    const result = await PostsService.deletePost(postDTO);
+
+    const { status, message } = result;
+
     res.status(status).json(message);
   },
 };
