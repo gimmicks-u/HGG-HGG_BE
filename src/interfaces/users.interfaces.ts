@@ -11,3 +11,8 @@ export interface UserUpdate {
   password?: string;
   profile_image?: string;
 }
+
+export interface UserDelete {
+  id: number;
+  password: string;
+}

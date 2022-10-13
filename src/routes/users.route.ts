@@ -11,4 +11,7 @@ router.get('/:id', UsersController.readUser);
 
 // 회원정보 수정
 router.patch('/:id', UsersController.updateUser);
+
+// 회원정보 삭제
+router.delete('/:id', UsersController.deleteUser);
 export default router;

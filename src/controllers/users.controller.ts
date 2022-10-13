@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UsersService } from '../services/users.service';
-import { UserCreate, UserUpdate } from '../interfaces/index';
+import { UserCreate, UserUpdate, UserDelete } from '../interfaces/index';
 
 // 회원가입
 export const UsersController = {
@@ -44,6 +44,20 @@ export const UsersController = {
     // Service
     const result: { status: number; message: string } =
       await UsersService.updateUser(userDTO);
+    const { status, message } = result;
+
+    // 응답
+    res.status(status).json(message);
+  },
+
+  deleteUser: async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const { password } = req.body;
+
+    const userDTO: UserDelete = { id, password };
+    // console.log(userDTO);
+    // Service
+    const result = await UsersService.deleteUser(userDTO);
     const { status, message } = result;
 
     // 응답

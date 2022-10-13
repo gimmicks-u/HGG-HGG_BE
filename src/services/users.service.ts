@@ -1,5 +1,5 @@
 import { User } from '../db/entity/user';
-import { UserCreate, UserUpdate } from '../interfaces';
+import { UserCreate, UserDelete, UserUpdate } from '../interfaces';
 import { getRepository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
@@ -73,7 +73,7 @@ export const UsersService = {
     const userDTOProperties: string[] = Object.keys(userDTO);
 
     const user: User = await getRepository(User).findOne({
-      where: { id: 1 }, /// 나중에 꼭 수정 !!!
+      where: { id: 1, deleted_at: null }, /// 나중에 꼭 수정 !!!
     });
     const beforeQuery = {};
     userDTOProperties.forEach((item) => (beforeQuery[item] = user[item]));
@@ -110,5 +110,32 @@ export const UsersService = {
       : { message: '입력하신 정보를 확인해주세요.', status: 400 };
 
     return result;
+  },
+
+  deleteUser: async (userDTO: UserDelete) => {
+    // 비밀번호 검증
+    const userInDbById: User = await getRepository(User).findOne({
+      where: { id: userDTO.id, deleted_at: null },
+    });
+
+    if (!userInDbById) {
+      return { message: '해당 회원이 존재하지 않습니다.', status: 404 };
+    }
+    const isMatchedPassword: boolean = await bcrypt.compare(
+      userDTO.password,
+      userInDbById.password,
+    );
+
+    if (!isMatchedPassword) {
+      return { message: '입력하신 비밀번호를 확인해주세요.', status: 400 };
+    }
+
+    // 탈퇴
+    const deleteUser = await getRepository(User)
+      .createQueryBuilder()
+      .softDelete()
+      .where('id = :id', { id: userDTO.id })
+      .execute();
+    return { message: '회원 탈퇴되었습니다.', status: 200 };
   },
 };
