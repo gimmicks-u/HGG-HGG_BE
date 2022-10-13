@@ -1,5 +1,5 @@
 import { User } from '../db/entity/user';
-import { UserCreate } from '../interfaces';
+import { UserCreate, UserEmail, UserNickName } from '../interfaces';
 import { getRepository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
@@ -39,5 +39,42 @@ export const UsersService = {
       console.log(err);
       return { message: '입력하신 정보를 확인해주세요.', status: 400 };
     }
+  },
+  checkEmail: async (userDTO: UserEmail) => {
+    const hasEmail = await getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email: `${userDTO.email}` })
+      .getOne();
+
+    const request_res = {
+      useAble: {
+        message: '사용가능한 이메일입니다. 테스트 테스트',
+        status: 201,
+      },
+      useUnable: {
+        message: '중복된 이메일입니다. 테스트 테스트',
+        status: 400,
+      },
+    };
+    return hasEmail == null ? request_res.useAble : request_res.useUnable;
+  },
+
+  checkNickname: async (userDTO: UserNickName) => {
+    const hasEmail = await getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.nickname = :nickname', { nickname: `${userDTO.nickname}` })
+      .getOne();
+
+    const request_res = {
+      useAble: {
+        message: '사용가능한 닉네임입니다. 테스트 테스트',
+        status: 201,
+      },
+      useUnable: {
+        message: '중복된 닉네임입니다. 테스트 테스트',
+        status: 400,
+      },
+    };
+    return hasEmail == null ? request_res.useAble : request_res.useUnable;
   },
 };
