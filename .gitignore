@@ -1,12 +1,11 @@
-<<<<<<< HEAD
-node_modules
-=======
+.node_modules
+node_modules/
+.env
 .vscode 
 .idea
 .DS_Store
 db_data
-/dist
-.dist/*
+.dist
 dist/
 
 
