@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as dotenv from 'dotenv';
 import usersRouter from './routes/users.route';
 import authRouter from './routes/auth.route';
+import photoRouter from './routes/photo.route';
 import 'reflect-metadata';
 import { Database } from './db/index';
 import * as cookieParser from 'cookie-parser';
@@ -18,6 +19,8 @@ class Server {
   private setRoute() {
     this.app.use('/users', usersRouter);
     this.app.use('/auth', authRouter);
+    this.app.use('/auth', authRouter);
+    this.app.use('/photo', photoRouter);
   }
 
   private setMiddleware() {
