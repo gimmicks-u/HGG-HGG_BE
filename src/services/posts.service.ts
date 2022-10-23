@@ -8,7 +8,7 @@ export const PostsService = {
   requestPost: async (postDTO: PostID) => {
     const requestPost = await getRepository(Post).findOne({
       where: {
-        id: postDTO.post_id,
+        id: postDTO.postId,
         deleted_at: null,
       },
     });
@@ -31,7 +31,7 @@ export const PostsService = {
       // authentication으로 전환될것
       const user_id = await getRepository(User).findOne({
         where: {
-          id: postDTO.user_id,
+          id: postDTO.userId,
         },
       });
       if (!user_id) {
@@ -64,7 +64,7 @@ export const PostsService = {
       // authentication으로 전환될것
       const user_id = await getRepository(User).findOne({
         where: {
-          id: postDTO.user_id,
+          id: postDTO.userId,
         },
       });
       if (!user_id) {
@@ -77,7 +77,7 @@ export const PostsService = {
 
       const updatePost = await getRepository(Post).findOne({
         where: {
-          id: postDTO.post_id,
+          id: postDTO.postId,
           deleted_at: null,
         },
         relations: {
@@ -91,8 +91,8 @@ export const PostsService = {
 
       updatePost.title = postDTO.title;
       updatePost.content = postDTO.content;
-      updatePost.status = PostStatus[postDTO.group_status];
-      updatePost.meeting_date = new Date(postDTO.meeting_date);
+      updatePost.status = PostStatus[postDTO.groupStatus];
+      updatePost.meeting_date = new Date(postDTO.meetingDate);
 
       await getRepository(Post).save(updatePost);
 
@@ -108,7 +108,7 @@ export const PostsService = {
       // authentication으로 전환될것
       const user_id = await getRepository(User).findOne({
         where: {
-          id: postDTO.user_id,
+          id: postDTO.userId,
         },
       });
       if (!user_id) {
@@ -121,7 +121,7 @@ export const PostsService = {
 
       const deletePost = await getRepository(Post).findOne({
         where: {
-          id: postDTO.post_id,
+          id: postDTO.postId, //postId
           deleted_at: null,
         },
         relations: {

@@ -9,9 +9,9 @@ import {
 
 export const PostsController = {
   requestPost: async (req: Request, res: Response) => {
-    const post_id = Number(req.params.id);
+    const postId = Number(req.params.id);
 
-    const postDTO: PostID = { post_id };
+    const postDTO: PostID = { postId };
     const result = await PostsService.requestPost(postDTO);
 
     const { status, PostedContent } = result;
@@ -20,15 +20,15 @@ export const PostsController = {
   },
 
   createPost: async (req: Request, res: Response) => {
-    const user_id = 10; // authentication으로 대체
-    const { title, content, group_status, meeting_date } = req.body;
+    const userId = 10; // authentication으로 대체
+    const { title, content, groupStatus, meetingDate } = req.body;
 
     const postDTO: PostCreate = {
       title,
       content,
-      group_status,
-      meeting_date,
-      user_id,
+      groupStatus,
+      meetingDate,
+      userId,
     };
     const result = await PostsService.createPost(postDTO);
 
@@ -37,18 +37,19 @@ export const PostsController = {
     res.status(status).json(message);
   },
   updatePost: async (req: Request, res: Response) => {
-    const user_id = 10; // authentication으로 대체
-    const post_id = Number(req.params.id);
-    const { title, content, group_status, meeting_date } = req.body;
+    const userId = 10; // authentication으로 대체
+    const postId = Number(req.params.id);
+    const { title, content, groupStatus, meetingDate } = req.body;
 
     const postDTO: PostUpdate = {
-      post_id,
+      postId,
       title,
       content,
-      group_status,
-      meeting_date,
-      user_id,
+      groupStatus,
+      meetingDate,
+      userId,
     };
+
     const result = await PostsService.updatePost(postDTO);
 
     const { status, message } = result;
@@ -57,12 +58,12 @@ export const PostsController = {
   },
 
   deletePost: async (req: Request, res: Response) => {
-    const user_id = 10; // authentication으로 대체
-    const post_id = Number(req.params.id);
+    const userId = 10; // authentication으로 대체
+    const postId = Number(req.params.id);
 
     const postDTO: PostDelete = {
-      post_id,
-      user_id,
+      postId,
+      userId,
     };
     const result = await PostsService.deletePost(postDTO);
 

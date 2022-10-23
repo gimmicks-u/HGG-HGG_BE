@@ -5,6 +5,9 @@ import authRouter from './routes/auth.route';
 
 //추가됨//
 import postsRouter from './routes/posts.router';
+import * as passport from 'passport'; //npm i --save-dev @types/passport
+import * as session from 'express-session'; //npm i --save-dev @types/express-session
+import { Passport } from './middlewares/package/passport';
 
 import 'reflect-metadata';
 import { Database } from './db/index';
@@ -13,6 +16,7 @@ import * as cors from 'cors';
 
 class Server {
   public app: express.Application;
+  public passport = Passport;
 
   constructor() {
     const app: express.Application = express();
@@ -20,8 +24,12 @@ class Server {
   }
 
   private setRoute() {
-    this.app.use('/users', usersRouter);
+    //인국 작성//
+    this.app.use(passport.initialize()); //passport 추가
+    this.app.use(passport.session()); //passport 추가
+
     this.app.use('/auth', authRouter);
+    this.app.use('/users', usersRouter);
 
     //인국 작성 //
     this.app.use('/posts', postsRouter);
@@ -56,6 +64,14 @@ class Server {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
+    //인국 작성//
+    this.app.use(
+      session({
+        secret: process.env.SECRET_SESSION,
+        resave: false, //false
+        saveUninitialized: true,
+      }),
+    );
     this.setRoute();
   }
 

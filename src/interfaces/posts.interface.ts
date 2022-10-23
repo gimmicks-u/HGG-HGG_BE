@@ -1,25 +1,25 @@
 export interface PostID {
-  post_id: number;
+  postId: number;
 }
 
 export interface PostCreate {
   title: string;
   content: string;
-  group_status: string;
-  meeting_date: string;
-  user_id: number;
+  groupStatus: string;
+  meetingDate: string;
+  userId: number;
 }
 
 export interface PostUpdate {
-  post_id: number;
+  postId: number;
   title: string;
   content: string;
-  group_status: string;
-  meeting_date: string;
-  user_id: number;
+  groupStatus: string;
+  meetingDate: string;
+  userId: number;
 }
 
 export interface PostDelete {
-  post_id: number;
-  user_id: number;
+  postId: number;
+  userId: number;
 }
